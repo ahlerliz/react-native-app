@@ -6,6 +6,53 @@ const password = 'password';
 
 
 class SisApi {
+
+    static async getPublishedUrls(endpoint){
+        const result = await axios.get(
+            `${BASE_URL}/api/${endpoint}/`,
+            {
+                auth: {
+                    username: username,
+                    password: password,
+                }
+            },
+        );
+        console.log({ result });
+        const urls = result.data.results
+            .filter(data => data.status === "published")
+            .map(data => data.api_url)
+        return urls;
+
+    }
+
+    static async getPublishedDetails(urls){
+        console.log({urls})
+        const results = await Promise.all(urls.map(url => 
+            axios.get(url,
+                {auth: {
+                    username: username,
+                    password: password,
+                    }
+                })
+            )
+        )
+        return results.map(result => result.data)
+    }
+
+    static retrieveLabSessions(exercisesession){
+
+        const result = exercisesession.exerciselabsession_set
+            .map(labsession => {
+                return {...labsession, ...exercisesession}})
+
+        return result;
+    }
+
+    static async filterAndSortUpcoming(upcoming){
+        
+
+
+    }
    
     static async getPublishedLecturesUrls() {
         const result = await axios.get(
@@ -71,6 +118,8 @@ class SisApi {
         console.log({ result });
         return result;
     }
+
+
 }
 
 export default SisApi;
