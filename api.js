@@ -1,33 +1,70 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8000";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
+const username = 'ahlerliz';
+const password = 'password';
+
 
 class SisApi {
-    token = 'ea61e6fb61ed7ed1e06ebcd96eb46c3f5789098e';
-    username = 'vcheng33';
-    password = 'password';
-
-    static async login() {
-        const result = await axios.post(
-            `${BASE_URL}/api/-token/`,
-            { username, password },
-        )
+   
+    static async getPublishedLecturesUrls() {
+        const result = await axios.get(
+            `${BASE_URL}/api/lecturesessions/`,
+            {
+                auth: {
+                    username: username,
+                    password: password,
+                }
+            },
+        );
         console.log({ result });
-        this.token = result.token;
-        return result;
+        const urls = result.data.results
+            .filter(lecture => lecture.status === "published")
+            .map(lecture => lecture.api_url)
+        return urls;
     }
 
-    static async getUpcoming() {
+    static async getPublishedExercisesUrls() {
+        const result = await axios.get(
+            `${BASE_URL}/api/exercisesessions/`,
+            {
+                auth: {
+                    username: username,
+                    password: password,
+                }
+            },
+        );
+        console.log({ result });
+        const urls = result.data.results
+            .filter(exercise => exercise.status === "published")
+            .map(exercise => exercise.api_url)
+        return urls;
+    }
 
+    static async getPublishedEventsUrls() {
+        const result = await axios.get(
+            `${BASE_URL}/api/events/`,
+            {
+                auth: {
+                    username: username,
+                    password: password,
+                }
+            },
+        );
+        console.log({ result });
+        const urls = result.data.results
+            .filter(event => event.status === "published")
+            .map(event => event.api_url)
+        return urls;
     }
 
     static async getCohort() {
         const result = await axios.get(
-            `${BASE_URL}/api/cohorts`,
+            `${BASE_URL}/api/cohorts/`,
             {
                 auth: {
-                    username: 'vcheng33',
-                    password: 'password',
+                    username: username,
+                    password: password,
                 }
             },
         );
