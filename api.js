@@ -1,4 +1,7 @@
 import axios from "axios";
+import base64 from 'react-native-base64';
+if (!global.btoa) { global.btoa = base64.encode }
+if (!global.atob) { global.atob = base64.decode }
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
 // const username = 'ahlerliz';
@@ -42,16 +45,24 @@ class SisApi {
         return results.map(result => result.data)
     }
 
-    static retrieveLabSessions(exercisesession){
-        const result = exercisesession.exerciselabsession_set
-            .map(labsession => {
-                return {...labsession, ...exercisesession}})
+    static retrieveLabSessions(exercisesessions){
+        const exercisesWithLabs = [];
 
-        return result;
+        exercisesessions.forEach(e => {
+            const labs = e.exerciselabsession_set
+                .map(labsession => {
+                    return { ...labsession, ...e }
+                });
+            exercisesWithLabs.push(...labs)
+        })
+        console.log("inside retribeLabSessions", {exercisesWithLabs});
+
+        return exercisesWithLabs;
     }
 
-    /** Takes in an array of upcoming events/lecturesessions/exercisesessions and returns an array 
-     *  that is sorted with the most recent events/lecturesessions/exercisessions first.
+    /** Takes in an array of upcoming events/lecturesessions/exercisesessions. First, it filters
+     *  for activities that will occur in the future. And then it sorts the array with the most
+     *  recent events/lecturesessions/exercisessions first.
      */
     static async filterAndSortUpcoming(upcoming){
         const currentTime = new Date();
@@ -73,10 +84,7 @@ class SisApi {
 
         const exercisesessions = await this.getPublishedDetails(exercisesUrls);
         console.log("getUpcoming exercisesessions", exercisesessions);
-        const exercisesWithLabs = [];
-        exercisesessions.forEach(e => {
-            const labs = this.retrieveLabSessions(e);
-            exercisesWithLabs.push(...labs)})
+        const exercisesWithLabs = this.retrieveLabSessions(exercisesessions);
         console.log({exercisesWithLabs});
 
         const lectureSessions = await this.getPublishedDetails(lecturesUrls);

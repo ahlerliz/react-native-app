@@ -1,55 +1,75 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import SisApi from "./api";
 
+import Row from "./Row";
+import RowHeader from "./RowHeader";
+
 export default function App() {
-  const [upcomingUrls, setUpcomingUrls] = useState([]);
-  const [upcomingDetails, setUpcomingDetails] = useState([])
+  const [upcoming, setUpcoming] = useState(null);
 
   useEffect(function getUpcomingOnMount() {
     async function getUpcomingUrlsFromApi() {
       try {
-        const upcoming = await SisApi.getUpcoming();
-        // const lecturesessions = await SisApi.getPublishedLecturesUrls();
-        // const exercises = await SisApi.getPublishedExercisesUrls();
-        // const events = await SisApi.getPublishedEventsUrls();
-        // console.log({lecturesessions})
-        // const lectures = lecturesessions.map(lecturesession => SisApi.retrieveLabSessions(lecturesession))
-        // console.log({lectures});
-        // console.log({exercises});
-        // console.log({events});
-        // setUpcomingUrls([...lectures, ...exercises, ...events]);
+        const upcomingResults = await SisApi.getUpcoming();
+        setUpcoming(upcomingResults);
       } catch (err) {
-        console.log({err});
+        console.log({ err });
       }
     }
     getUpcomingUrlsFromApi();
   }, []);
 
-  // useEffect(function getUpcomingDetailsonMount(){
-  //   async function getUpcomingDetails(){
-  //     try {
-  //       const results = await SisApi.getPublishedDetails(upcomingUrls)
-  //       console.log({results})
-  //       setUpcomingDetails(results)
-  //     }catch (err){
-  //       console.log(err)
-  //     }
-      
-  //   }
-  //   getUpcomingDetails();
-  // }, [upcomingUrls])
-// create function to check if session is upcoming or past
-// filter urls by date and make api call, pass in times to above function
-// create main list organized by date, loop through and show info
-
-
   return (
-    <View style={styles.container}>
-      <Text> - Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <RowHeader
+        title='Title'
+        description='Description'
+        start_at='Start Time'
+      />
+      <Text>
+      {upcoming && upcoming.map(u =>
+        <View key={u.id + u.start_at}>
+            <Row
+              title={u.title}
+              description={u.description}
+              start_at={u.start_at}
+            />
+      </View>)}
+      </Text>
+      {/* <Text>{upcoming && upcoming.map(u =>
+        <View key={u.id + u.start_at}>
+          <Row
+            title={u.title}
+            description={u.description}
+            start_at={u.start_at}
+          />
+          <Text>{u.title}</Text>
+          <Text>{u.description}</Text>
+          <Text>{u.start_at}</Text>
+        </View>
+      )}</Text> */}
+    </SafeAreaView>
+    // <SafeAreaView style={styles.container}>
+    //   <SafeAreaView>
+    //     <RowHeader
+    //       title='Title'
+    //       description='Description'
+    //       start_at='Start Time'
+    //     />
+    //   {upcoming && upcoming.map(u =>
+    //     <SafeAreaView key={u.id + u.start_at}>
+    //       <Row
+    //         title={u.title}
+    //         description={u.description}
+    //         start_at={u.start_at}
+    //       />
+    //     </SafeAreaView>
+    //   )}
+    //   </SafeAreaView>
+    //   {/* <StatusBar style="auto" /> */}
+    // </SafeAreaView>
   );
 }
 
