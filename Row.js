@@ -7,9 +7,6 @@ function Row({ start_at, title, description }) {
             <View style={styles.cell}><Text>{start_at}</Text></View>
             <View style={styles.cell}><Text>{title}</Text></View>
             <View style={styles.cell}><Text>{description}</Text></View>
-            {/* <View style={styles.cell}><Text>{assets}</Text></View> */}
-            {/* <View style={styles.cell}><Text>{start_at}</Text></View>
-            <View style={styles.cell}><Text>{start_at}</Text></View> */}
         </View>
     )
 }
@@ -18,6 +15,7 @@ const styles = StyleSheet.create({
     cell: {
         flex: 1, 
         alignSelf: 'stretch',
+        marginLeft: 12,
     },
     view: {
         // flex: 1, 

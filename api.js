@@ -3,13 +3,13 @@ import base64 from 'react-native-base64';
 if (!global.btoa) { global.btoa = base64.encode }
 if (!global.atob) { global.atob = base64.decode }
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
-// const username = 'ahlerliz';
-// const password = 'password';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
-const username = 'vcheng33';
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
+const username = 'ahlerliz';
 const password = 'password';
+
+// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
+// const username = 'vcheng33';
+// const password = 'password';
 
 class SisApi {
 
@@ -99,3 +99,4 @@ class SisApi {
 }
 
 export default SisApi;
+export {BASE_URL};
