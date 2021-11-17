@@ -1,25 +1,20 @@
 
 
 function getCohort(url){
-    const api = new URL(url);
-    console.log({api});
-    const cohort = api.hostname;
-    console.log({cohort});
+    const arr = url.split('/')
+    const cohort = arr[arr.length - 2];
     return cohort;
 }
 
-function convertDateAndTime(dateAndTime){
+function readableDateAndTime(dateAndTime) {
+    const dateOptions = { weekday: 'short', month: 'short', day: 'numeric'};
+    const date = new Date(dateAndTime).toLocaleDateString('en-US', dateOptions);
 
-    return new Date(dateAndTime).toUTCString()
-    // const fullDate = new Date(dateAndTime)
-    // const month = fullDate.getMonth()
-    // const day = fullDate.getDay()
-    // const hour = fullDate.getHours()
-    // const minutes = fullDate.getMinutes()
-    
-    // return (`${month}, ${day} 
-    //         ${hour}:${minutes} PST`)
-
+    const timeOptions = { hour: '2-digit', minute: '2-digit' }
+    const time = new Date(dateAndTime).toLocaleTimeString('en-US', timeOptions)
+    return `${date}
+     ${time}`;
 }
 
-export {convertDateAndTime, getCohort};
+
+export {getCohort, readableDateAndTime};

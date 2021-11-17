@@ -12,7 +12,7 @@ function PageTitle({ cohort }) {
         <View style={styles.view}>
             <View style={styles.element}>
                 <Text style={styles.cohortFont}>
-                    {cohort} 
+                    Rithm {cohort} 
                 </Text>
             </View>
             <View style={styles.element}>
@@ -31,13 +31,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     cohortFont: {
-        fontSize: 27,
+        fontSize: 32,
         fontFamily: "Times New Roman",
+        // fontWeight: 'bold',
     },
     upcomingFont: {
         fontSize: 27,
         fontFamily: "Times New Roman",
         color: "gray",
+        marginTop: 4,
     },
     element: {
         margin: 12,

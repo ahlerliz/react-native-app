@@ -2,7 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import SisApi from "./api";
-import { convertDateAndTime } from './utils';
+import { 
+  convertDateAndTime, 
+  getCohort,
+  readableDateAndTime,
+} from './utils';
 
 
 import Row from "./Row";
@@ -28,10 +32,7 @@ export default function App() {
 
   useEffect(function getCohortOnChange() {
       if (upcoming) {
-        const temp = upcoming[0].cohort
-        const tempArray = temp.split('/')
-        const neededCohort = tempArray[tempArray.length - 2];
-        console.log({neededCohort});
+        const neededCohort = getCohort(upcoming[0].cohort);
         setCohort(neededCohort);
     }
   }, [upcoming]);
@@ -50,7 +51,9 @@ export default function App() {
         <Row
           title={u.title}
           description={u.description}
-          start_at={convertDateAndTime(u.start_at)}
+          start_at={readableDateAndTime(u.start_at)}
+          type={(u.lecture && 'lecture') || (u.exercise && 'exercise') || (u.event && 'event')}
+          key={u.title + u.start_at}
         />
       )}
     </SafeAreaView>

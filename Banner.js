@@ -10,12 +10,12 @@ function Banner({ cohort }) {
     console.log(typeof cohort);
     return (
         <View style={styles.view}>
-            <View style={styles.element}>
-                <Image source={require("./rithm-simple.svg")} style={styles.image} />
+            <View>
+                <Image source={require("./assets/rithm.png")} style={styles.image} />
             </View>
-            <View style={styles.element}>
+            <View>
                 <Text style={styles.font}>
-                    {cohort}
+                    Rithm {cohort}
                 </Text>
             </View>
         </View>
@@ -24,7 +24,6 @@ function Banner({ cohort }) {
 
 const styles = StyleSheet.create({
     view: {
-        // flex: 1, 
         alignSelf: 'stretch',
         backgroundColor: "#e46b66",
         flexDirection: 'row',
@@ -37,14 +36,10 @@ const styles = StyleSheet.create({
     },
     image: {
         height: 35,
-        width: 45,
+        width: 35,
         margin: 12,
         marginTop: 10,
     },
-    element: {
-        // flex: 1,
-        // alignSelf: 'stretch',
-    }
 });
 
 export default Banner;
