@@ -1,13 +1,13 @@
-import { BASE_URL } from "./api";
-import { getCohort } from './utils';
 import React from "react";
 import { StyleSheet, Text, View, Image } from 'react-native';
 
+
+/** Component for the Page title in app
+ * Props: cohort
+ * State: none
+ * Events: none
+ */
 function Banner({ cohort }) {
-    // const cohort = getCohort(BASE_URL);
-    // const cohort = 'r1';
-    console.log("cohort", cohort);
-    console.log(typeof cohort);
     return (
         <View style={styles.view}>
             <View>
@@ -20,7 +20,7 @@ function Banner({ cohort }) {
             </View>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     view: {

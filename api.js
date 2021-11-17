@@ -3,30 +3,26 @@ import base64 from 'react-native-base64';
 if (!global.btoa) { global.btoa = base64.encode }
 if (!global.atob) { global.atob = base64.decode }
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
-// const username = 'ahlerliz';
-// const password = 'password';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
-const username = 'testuser';
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
+const username = 'ahlerliz';
 const password = 'password';
 
-class SisApi {
-    static async getCohort() {
-        const result = await axios.get(
-            `${BASE_URL}/api/cohorts/`,
-            {
-                auth: {
-                    username: username,
-                    password: password,
-                }
-            },
-        );
-        console.log({ result });
-        const cohort = result.data
-        return cohort
-    }
+// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
+// const username = 'testuser';
+// const password = 'password';
 
+/** Class that holds static functions to make API calls
+ * 
+ */
+
+class SisApi {
+
+    /** API call to get information
+     * filtered on status: "published"
+     * Returning only the URLs
+     * @param {*} endpoint 
+     * @returns {} ["url1", "url2", ...]
+     */
     static async getPublishedUrls(endpoint){
         const result = await axios.get(
             `${BASE_URL}/api/${endpoint}/`,
@@ -37,16 +33,19 @@ class SisApi {
                 }
             },
         );
-        console.log({ result });
         const urls = result.data.results
             .filter(data => data.status === "published")
-            .map(data => data.api_url)
+            .map(data => data.api_url);
         return urls;
 
     }
 
+    /** API call to get detailed information
+     * from array of URLs
+     * @param {*} urls 
+     * @returns {} [{title: "title"}, {title: "title2"}, ...]
+     */
     static async getPublishedDetails(urls){
-        console.log({urls})
         const results = await Promise.all(urls.map(url => 
             axios.get(url,
                 {auth: {
@@ -56,9 +55,14 @@ class SisApi {
                 })
             )
         )
-        return results.map(result => result.data)
+        return results.map(result => result.data);
     }
 
+    /** Formats exercise sessions to make start_at and end_at accessible
+     * 
+     * @param {*} exercisesessions 
+     * @returns {} [{exercise: "exercise1", start_at: "Nov 10"}...]
+     */
     static retrieveLabSessions(exercisesessions){
         const exercisesWithLabs = [];
 
@@ -67,9 +71,8 @@ class SisApi {
                 .map(labsession => {
                     return { ...labsession, ...e }
                 });
-            exercisesWithLabs.push(...labs)
+            exercisesWithLabs.push(...labs);
         })
-        console.log("inside retribeLabSessions", {exercisesWithLabs});
 
         return exercisesWithLabs;
     }
@@ -80,33 +83,26 @@ class SisApi {
      */
     static async filterAndSortUpcoming(upcoming){
         const currentTime = new Date();
-        console.log({currentTime});
         const filteredUpcoming = upcoming.filter(u => new Date(u.start_at) >= currentTime);
-        console.log({filteredUpcoming});
         const sortedUpcoming = filteredUpcoming.sort((a, b) => new Date(a.start_at) - new Date(b.start_at));
-        console.log({sortedUpcoming});
         return sortedUpcoming;
     }
 
+    /** Main function that calls API functions and sorting functions
+     * Returns data in accessible format for rendering
+     */
     static async getUpcoming() {
         const exercisesUrls = await this.getPublishedUrls('exercisesessions');
-        console.log("getUpcoming exercisesUrls", exercisesUrls);
         const lecturesUrls = await this.getPublishedUrls('lecturesessions');
-        console.log("getUpcoming lecturesUrls", lecturesUrls);
         const eventsUrls = await this.getPublishedUrls('events');
-        console.log("getUpcoming eventsUrls", eventsUrls);
 
         const exercisesessions = await this.getPublishedDetails(exercisesUrls);
-        console.log("getUpcoming exercisesessions", exercisesessions);
         const exercisesWithLabs = this.retrieveLabSessions(exercisesessions);
-        console.log({exercisesWithLabs});
 
         const lectureSessions = await this.getPublishedDetails(lecturesUrls);
-        console.log("getUpcoming lectureSessions", lectureSessions);
         const events = await this.getPublishedDetails(eventsUrls);
-        console.log({lectureSessions, events});
-        const sortedUpcoming = await this.filterAndSortUpcoming([...lectureSessions, ...exercisesWithLabs, ...events])
-        console.log("in getUpcoming function:", {sortedUpcoming});
+        const sortedUpcoming = await this.filterAndSortUpcoming([...lectureSessions, ...exercisesWithLabs, ...events]);
+        
         return sortedUpcoming;
     }
 

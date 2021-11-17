@@ -1,6 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
+/** Component for row heading in the "table" in app
+ * 
+ * Props: start_at, title, description
+ * State: none
+ * Events: none
+ */
 function RowHeader({ start_at, title, description }) {
     return (
         <View style={styles.view}>
@@ -9,7 +15,7 @@ function RowHeader({ start_at, title, description }) {
             <View style={styles.cell}><Text style={styles.font}>{description}</Text></View>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     cell: {
@@ -24,7 +30,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     view: {
-        // flex: 1, 
         alignSelf: 'stretch', 
         flexDirection: 'row',
         marginTop: 20,
@@ -32,8 +37,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#dee2e6",
         marginLeft: 12,
-        // alignContent: 'space-between',
-        // alignContent: 'space-around',
     }
 });
 

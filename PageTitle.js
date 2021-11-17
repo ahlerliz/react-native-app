@@ -1,13 +1,14 @@
-import { BASE_URL } from "./api";
-import { getCohort } from './utils';
 import React from "react";
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+
+/** Component for the Page title in app
+ * 
+ * Props: cohort
+ * State: none
+ * Events: none
+ */
 function PageTitle({ cohort }) {
-    // const cohort = getCohort(BASE_URL);
-    // const cohort = 'r1';
-    console.log("cohort", cohort);
-    console.log(typeof cohort);
     return (
         <View style={styles.view}>
             <View style={styles.element}>
@@ -22,18 +23,16 @@ function PageTitle({ cohort }) {
             </View>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     view: {
-        // flex: 1, 
         alignSelf: 'stretch',
         flexDirection: 'row',
     },
     cohortFont: {
         fontSize: 32,
         fontFamily: "Times New Roman",
-        // fontWeight: 'bold',
     },
     upcomingFont: {
         fontSize: 27,
