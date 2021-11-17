@@ -3,15 +3,29 @@ import base64 from 'react-native-base64';
 if (!global.btoa) { global.btoa = base64.encode }
 if (!global.atob) { global.atob = base64.decode }
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
-const username = 'ahlerliz';
-const password = 'password';
-
-// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
-// const username = 'vcheng33';
+// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r23:8000";
+// const username = 'ahlerliz';
 // const password = 'password';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://r1:8000";
+const username = 'vcheng33';
+const password = 'password';
+
 class SisApi {
+    static async getCohort() {
+        const result = await axios.get(
+            `${BASE_URL}/api/cohorts/`,
+            {
+                auth: {
+                    username: username,
+                    password: password,
+                }
+            },
+        );
+        console.log({ result });
+        const cohort = result.data
+        return cohort
+    }
 
     static async getPublishedUrls(endpoint){
         const result = await axios.get(

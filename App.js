@@ -8,11 +8,10 @@ import { convertDateAndTime } from './utils';
 import Row from "./Row";
 import RowHeader from "./RowHeader";
 import PageTitle from "./PageTitle";
-import Banner from './Banner';
 
 export default function App() {
   const [upcoming, setUpcoming] = useState(null);
-
+  const [cohort, setCohort] = useState(null);
 
   useEffect(function getUpcomingOnMount() {
     async function getUpcomingUrlsFromApi() {
@@ -26,12 +25,20 @@ export default function App() {
     getUpcomingUrlsFromApi();
   }, []);
 
+  useEffect(function getCohortOnChange() {
+      if (upcoming) {
+        const temp = upcoming[0].cohort
+        const tempArray = temp.split('/')
+        const neededCohort = tempArray[tempArray.length - 2];
+        console.log({neededCohort});
+        setCohort(neededCohort);
+    }
+  }, [upcoming]);
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Banner/>
-      <PageTitle/>
+      {cohort && <PageTitle cohort={cohort}/>}
       <RowHeader
         title='Title'
         description='Description'
