@@ -1,43 +1,48 @@
-import {BASE_URL} from "./api";
+import { BASE_URL } from "./api";
 import { getCohort } from './utils';
 import React from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
-function PageTitle({ cohort }){
+function PageTitle({ cohort }) {
     // const cohort = getCohort(BASE_URL);
     // const cohort = 'r1';
     console.log("cohort", cohort);
     console.log(typeof cohort);
     return (
         <View style={styles.view}>
-            <Text style={styles.font}>
-                {cohort}
-            </Text>
+            <View style={styles.element}>
+                <Text style={styles.cohortFont}>
+                    {cohort} 
+                </Text>
+            </View>
+            <View style={styles.element}>
+                <Text style={styles.upcomingFont}> 
+                    Upcoming
+                </Text>
+            </View>
         </View>
     )
 }
-
-// const styles = StyleSheet.create({
-//     view: {
-//         // flex: 1, 
-//         alignSelf: 'stretch',
-//         marginLeft: 12,
-//     },
-//     font: {
-//         fontSize: 35,
-//     },
-// });
 
 const styles = StyleSheet.create({
     view: {
         // flex: 1, 
         alignSelf: 'stretch',
-        backgroundColor: "#e46b66",
+        flexDirection: 'row',
     },
-    font: {
-        fontSize: 35,
-        marginLeft: 12,
+    cohortFont: {
+        fontSize: 27,
+        fontFamily: "Times New Roman",
     },
+    upcomingFont: {
+        fontSize: 27,
+        fontFamily: "Times New Roman",
+        color: "gray",
+    },
+    element: {
+        margin: 12,
+        marginRight: 0,
+    }
 });
 
 export default PageTitle;

@@ -15,16 +15,23 @@ const styles = StyleSheet.create({
     cell: {
         flex: 1,
         alignSelf: 'stretch',
-        marginLeft: 12,
-        marginBottom: 10,
+        marginBottom: 5,
+        marginTop: 5,
     },
     font: {
         fontSize: 20,
+        fontFamily: "Times New Roman",
+        fontWeight: 'bold',
     },
     view: {
         // flex: 1, 
         alignSelf: 'stretch', 
         flexDirection: 'row',
+        marginTop: 20,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: "#dee2e6",
+        marginLeft: 12,
         // alignContent: 'space-between',
         // alignContent: 'space-around',
     }
