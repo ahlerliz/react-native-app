@@ -59,7 +59,7 @@ export default function App() {
             title={u.title}
             description={u.description}
             start_at={readableDateAndTime(u.start_at)}
-            type={(u.lecture && 'lecture') || (u.exercise && 'exercise') || (u.event && 'event')}
+            type={(u.lecture && 'lecture') || (u.exercise && 'exercise') || ('event')}
             key={u.title + u.start_at}
           />
         )}
